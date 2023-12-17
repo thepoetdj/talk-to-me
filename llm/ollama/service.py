@@ -10,3 +10,6 @@ def get_system_prompt(name):
     if data:
         return data.get("system", default_system_prompt)
     return default_system_prompt
+
+def generate_completion(model, prompt, system, callback):
+    oc.generate(model, prompt, system=system, callback=callback)

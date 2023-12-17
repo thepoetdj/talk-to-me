@@ -1,3 +1,4 @@
+import json
 import os
 import requests
 
@@ -24,3 +25,24 @@ def show(name):
     except requests.exceptions.RequestException as request_exception:
         print(f"Failed to fetch model details for {name}: {request_exception}")
         return None
+
+def generate(model, prompt, system=None, template=None, options=None, callback=None):
+    try:
+        url = f"{OLLAMA_HOST}/api/generate"
+        payload = {
+            "model": model,
+            "prompt": prompt,
+            "system": system,
+            "template": template,
+            "options": options
+        }
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        with requests.post(url, json=payload, stream=True) as response:
+            response.raise_for_status()
+            for line in response.iter_lines():
+                if line:
+                    chunk = json.loads(line)
+                    callback(chunk)
+    except Exception as completion_exception:
+        print(f"Failed to generate chat completion: {completion_exception}")
