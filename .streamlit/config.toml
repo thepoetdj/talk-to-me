@@ -1,0 +1,15 @@
+[client]
+showErrorDetails = false
+
+[server]
+runOnSave = true
+
+[runner]
+magicEnabled = false
+fastReruns = false
+
+[theme]
+base = "dark"
+
+[browser]
+gatherUsageStats = false
